@@ -7,7 +7,7 @@ import json
 import os
 import zipfile
 
-VERSION = "0.4.3"  # 0.4.3: the clearance check looks as far as the board's biggest clearance (was a fixed 1 mm); 0.4.2: max corner angle 120 (was 179, inclusive and rounded to 0.1 degree), min length 25 % of the width, a wedge stops short of other nets' copper by its clearance (no copper horn from the fill), "Min length (% of width)" in the dialog; 0.4.1: a wedge stops at the first pad/via of its net, and a branch from the middle of a segment measures each side apart; 0.4.0: exclusions (nets by pattern, net classes) and the out-of-date wedge line with an "Update out-of-date" button; 0.3.0: parameter dialog with live preview (plugins/dialog.py), Remove mode instead of a separate remove action; 0.2.2: identifier com.teardropt, author e-mail; 0.2.1: new icon (light/dark toolbar, 64 px tile); 0.2.0: one zone per corner holding the half track (tips filled to the tangent); 0.1.1: fill down to 0.0254 mm
+VERSION = "0.4.3"  # see CHANGELOG.md
 HERE = os.path.dirname(os.path.abspath(__file__))
 PLUGIN = os.path.join(HERE, "mt_teardrop_t")
 METADATA = {

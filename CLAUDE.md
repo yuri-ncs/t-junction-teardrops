@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - `teardrop_t.py`: the core. It finds the junctions, draws the wedges, and has `add`/`remove`/`plan`/`outdated` and the self-test. It does not use wx, so it also runs outside KiCad.
 - `mt_teardrop_t/`: the plugin. `__init__.py` registers the action and loads the core by file path. `dialog.py` is the wx dialog with the preview.
-- `package.py`: builds `dist/mt_teardrop_t-<VERSION>.zip` (PCM, schema v1), with a copy of the core as `plugins/teardrop_core.py`. `VERSION` carries the changelog.
+- `package.py`: builds `dist/mt_teardrop_t-<VERSION>.zip` (PCM, schema v1), with a copy of the core as `plugins/teardrop_core.py`. Changes go to `CHANGELOG.md`; development notes for people are in `CONTRIBUTING.md`.
 - `test/`: the synthetic board of 22 cases (`make_board.py`, with the expected wedge counts in `WEDGES`) and the regression (`regression.py`).
 - `docs/`: the README images and `make_images.py`, which renders them again.
 - Other scripts may import the core: keep `add`, `load`, `params_path` and `NAME` stable.
@@ -19,7 +19,7 @@ PY=/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/C
 - `$PY teardrop_t.py --selftest`
 - `$PY test/regression.py`: needs `kicad-cli` and writes to `test/out/`, which is not in git.
 - `$PY docs/make_images.py`: opens the dialog for a moment.
-- `python3 package.py` (any python3). Install the zip in KiCad with Plugin and Content Manager → Install from File. After changing the core or the dialog, bump `VERSION`, build the zip again and reinstall.
+- `python3 package.py` (any python3). Install the zip in KiCad with Plugin and Content Manager → Install from File. After changing the core or the dialog, bump `VERSION`, add the change to `CHANGELOG.md`, build the zip again and reinstall.
 
 ## Rules
 - Documents, comments and commit messages are in English.

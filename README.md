@@ -67,45 +67,22 @@ teardrops.
 | Min length (% of width) | 25 % | A fillet cut short by a pad or via is a step, not a fillet. 50 % gave the same result on the test board, but dropped a useful 0.35 mm fillet on a 0.8 mm track. |
 | Min fill width | 0.0254 mm | With a coarser minimum, the fill cut the tips off. |
 
-Here are the junctions where these rules matter. The first row has every corner up to 179°, no minimum length and no clearance check,
-which is how version 0.4.1 behaved. The second row has the defaults:
+Here are the junctions where these rules matter. The first row has every corner up to 179°, no minimum length and no clearance check. The second row has the
+defaults:
 
 ![Before: blobs on obtuse corners, a step next to a via, a fillet cut by another net's clearance](docs/before.png)
 ![After: only the 45° and 90° corners, no step, the fillet next to the other net shortened](docs/after.png)
 
-## Test board
+## Command line
 
-`test/make_board.py` builds a synthetic board with 22 kinds of junction:
+The core also runs without the KiCad GUI, with KiCad's Python (on macOS,
+`/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Current/bin/python3`):
 
-- T junctions of several widths;
-- branches at 45°, 30° and 15°;
-- Y splits, crosses and a four-way star;
-- pads and a via close to the node;
-- another net nearby;
-- very short arms;
-- junctions on F.Cu, B.Cu and In2.Cu;
-- three junctions copied from a real board.
+```bash
+python3 teardrop_t.py in.kicad_pcb out.kicad_pcb
+```
 
-`test/regression.py` builds the test board, adds the fillets with the default parameters and refills the zones with the `kicad-cli` DRC.
-It then requires all of these:
-
-- a clean DRC with no unconnected items;
-- the expected number of fillets in each case;
-- every fillet filled over at least 95 % of its outline. A fillet cut by a clearance falls below that.
-
-![All 22 cases with the default parameters](docs/cases.png)
-
-## Command line and checks
-
-Run these with KiCad's Python, for example
-`/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Current/bin/python3` on macOS.
-
-| What | Command |
-|---|---|
-| Add fillets to a board file (it uses the `<in>.teardrop_t.json` next to it, if any) | `python3 teardrop_t.py in.kicad_pcb out.kicad_pcb` |
-| Self-test of the core (geometry, scope, filters, out-of-date, clearance) | `python3 teardrop_t.py --selftest` |
-| Regression on the test board (needs `kicad-cli`; writes `test/out/`) | `python3 test/regression.py` |
-| Rebuild the images of this README | `python3 docs/make_images.py` |
+It uses the parameters saved in `in.teardrop_t.json` next to the input board, if there is one, and the defaults otherwise.
 
 ## Limits
 
@@ -114,6 +91,11 @@ Run these with KiCad's Python, for example
 - The clearance check uses each item's own clearance: its net class, or rules about one item. A `.kicad_dru` rule between two specific
   nets is not seen. The zone fill still enforces it, so there the fillet is cut as before.
 - The plugin needs the SWIG Python API. KiCad plans to remove that API, and a version for the new IPC API has not been written.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the test board, the checks and how to build the package.
+Changes are listed in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
