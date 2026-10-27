@@ -12,7 +12,7 @@ plugin adds a concave fillet in each corner of every junction where three or mor
 Build the package and install it from the file:
 
 ```bash
-python3 empacotar.py
+python3 package.py
 ```
 
 1. The package goes to `dist/mt_teardrop_t-<version>.zip`.
@@ -75,7 +75,7 @@ which is how version 0.4.1 behaved. The second row has the defaults:
 
 ## Test board
 
-`teste/gera.py` builds a synthetic board with 22 kinds of junction:
+`test/make_board.py` builds a synthetic board with 22 kinds of junction:
 
 - T junctions of several widths;
 - branches at 45°, 30° and 15°;
@@ -86,7 +86,7 @@ which is how version 0.4.1 behaved. The second row has the defaults:
 - junctions on F.Cu, B.Cu and In2.Cu;
 - three junctions copied from a real board.
 
-`teste/regressao.py` builds the test board, adds the fillets with the default parameters and refills the zones with the `kicad-cli` DRC.
+`test/regression.py` builds the test board, adds the fillets with the default parameters and refills the zones with the `kicad-cli` DRC.
 It then requires all of these:
 
 - a clean DRC with no unconnected items;
@@ -104,7 +104,7 @@ Run these with KiCad's Python, for example
 |---|---|
 | Add fillets to a board file (it uses the `<in>.teardrop_t.json` next to it, if any) | `python3 teardrop_t.py in.kicad_pcb out.kicad_pcb` |
 | Self-test of the core (geometry, scope, filters, out-of-date, clearance) | `python3 teardrop_t.py --selftest` |
-| Regression on the test board (needs `kicad-cli`; writes `teste/saida/`) | `python3 teste/regressao.py` |
+| Regression on the test board (needs `kicad-cli`; writes `test/out/`) | `python3 test/regression.py` |
 | Rebuild the images of this README | `python3 docs/make_images.py` |
 
 ## Limits

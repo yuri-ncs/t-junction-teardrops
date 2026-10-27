@@ -1,7 +1,7 @@
 """Builds the KiCad package of the T-junction teardrop plugin: dist/mt_teardrop_t-<VERSION>.zip, to install in KiCad with
 Plugin and Content Manager -> "Install from File". Layout of a PCM package (schema go.kicad.org/pcm/schemas/v1):
   metadata.json, plugins/ (the action plugin: __init__.py, dialog.py, icon.png, icon-dark.png and teardrop_core.py, a copy of teardrop_t.py), resources/icon.png.
-Run with any python3:  python3 empacotar.py
+Run with any python3:  python3 package.py
 """
 import json
 import os

@@ -1,4 +1,4 @@
-"""KiCad action plugins: teardrops at T junctions (core: ../teardrop_t.py). Installed from the zip that ../empacotar.py builds
+"""KiCad action plugins: teardrops at T junctions (core: ../teardrop_t.py). Installed from the zip that ../package.py builds
 (KiCad: Plugin and Content Manager, "Install from File"), which carries a copy of the core as teardrop_core.py; without that copy (a
 symlink to this folder) the core is found through the real path of this file.
 The folder is not called teardrop_t: KiCad imports it under its folder name, and `import teardrop_t` would then return this plugin
@@ -16,7 +16,7 @@ DARK_ICON = os.path.join(HERE, "icon-dark.png")  # KiCad picks it on the dark th
 
 
 def core():
-    bundled = os.path.join(HERE, "teardrop_core.py")  # the copy inside the package (empacotar.py, installed from file by KiCad's PCM)
+    bundled = os.path.join(HERE, "teardrop_core.py")  # the copy inside the package (package.py, installed from file by KiCad's PCM)
     path = bundled if os.path.exists(bundled) else os.path.join(REPO, "teardrop_t.py")
     spec = importlib.util.spec_from_file_location("mt_teardrop_t_core", path)
     module = importlib.util.module_from_spec(spec)

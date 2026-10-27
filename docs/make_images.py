@@ -1,4 +1,4 @@
-"""Renders the README images from the test board (teste/gera.py): hero.png, cases.png, before.png, after.png and dialog.png in docs/.
+"""Renders the README images from the test board (test/make_board.py): hero.png, cases.png, before.png, after.png and dialog.png in docs/.
 "before" is the plugin with every corner up to 179 degrees, no minimum length and no clearance check (0.4.1); "after" is the defaults.
 Run with KiCad's python (it opens the dialog for a moment):  $PY docs/make_images.py"""
 import os
@@ -6,12 +6,12 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-sys.path[:0] = [REPO, os.path.join(REPO, "teste"), os.path.join(REPO, "mt_teardrop_t")]
+sys.path[:0] = [REPO, os.path.join(REPO, "test"), os.path.join(REPO, "mt_teardrop_t")]
 import pcbnew  # noqa: E402
 import wx  # noqa: E402
 
 import dialog  # noqa: E402
-import regressao  # noqa: E402
+import regression  # noqa: E402
 import teardrop_t  # noqa: E402
 
 COMPARE = (5, 8, 12, 13, 16, 19)  # where the 0.4.2 rules change the result
@@ -19,18 +19,18 @@ COMPARE = (5, 8, 12, 13, 16, 19)  # where the 0.4.2 rules change the result
 
 def main():
     app = wx.App()
-    board, _, casos = regressao.build()
-    pick = lambda ids: [c for c in casos if c["id"] in ids]  # noqa: E731
-    regressao.sheet(board, casos, os.path.join(HERE, "cases.png"))
-    regressao.sheet(board, pick((2, 7, 9)), os.path.join(HERE, "hero.png"), r=2.0, px=300, cols=3)
-    regressao.sheet(board, pick(COMPARE), os.path.join(HERE, "after.png"))
+    board, _, cases = regression.build()
+    pick = lambda ids: [c for c in cases if c["id"] in ids]  # noqa: E731
+    regression.sheet(board, cases, os.path.join(HERE, "cases.png"))
+    regression.sheet(board, pick((2, 7, 9)), os.path.join(HERE, "hero.png"), r=2.0, px=300, cols=3)
+    regression.sheet(board, pick(COMPARE), os.path.join(HERE, "after.png"))
     keepout = teardrop_t.keepout
     teardrop_t.keepout = lambda *a: []  # no clearance check, as before 0.4.2
-    old, _, _ = regressao.build({"max_angle_deg": 179, "min_length_pct": 0}, "antes")
+    old, _, _ = regression.build({"max_angle_deg": 179, "min_length_pct": 0}, "before")
     teardrop_t.keepout = keepout
-    regressao.sheet(old, pick(COMPARE), os.path.join(HERE, "before.png"))
+    regression.sheet(old, pick(COMPARE), os.path.join(HERE, "before.png"))
 
-    bare = pcbnew.LoadBoard(os.path.join(regressao.OUT, "teste-t.kicad_pcb"))
+    bare = pcbnew.LoadBoard(os.path.join(regression.OUT, "test_board.kicad_pcb"))
     box = dialog.TeardropDialog(None, bare, teardrop_t)
     box.Show()
     for _ in range(20):

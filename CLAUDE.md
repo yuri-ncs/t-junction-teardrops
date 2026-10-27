@@ -7,8 +7,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - `teardrop_t.py`: the core. It finds the junctions, draws the wedges, and has `add`/`remove`/`plan`/`outdated` and the self-test. It does not use wx, so it also runs outside KiCad.
 - `mt_teardrop_t/`: the plugin. `__init__.py` registers the action and loads the core by file path. `dialog.py` is the wx dialog with the preview.
-- `empacotar.py`: builds `dist/mt_teardrop_t-<VERSION>.zip` (PCM, schema v1), with a copy of the core as `plugins/teardrop_core.py`. `VERSION` carries the changelog.
-- `teste/`: the synthetic board of 22 cases (`gera.py`, with the expected wedge counts in `WEDGES`) and the regression (`regressao.py`).
+- `package.py`: builds `dist/mt_teardrop_t-<VERSION>.zip` (PCM, schema v1), with a copy of the core as `plugins/teardrop_core.py`. `VERSION` carries the changelog.
+- `test/`: the synthetic board of 22 cases (`make_board.py`, with the expected wedge counts in `WEDGES`) and the regression (`regression.py`).
 - `docs/`: the README images and `make_images.py`, which renders them again.
 - Other scripts may import the core: keep `add`, `load`, `params_path` and `NAME` stable.
 
@@ -17,15 +17,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 PY=/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/Current/bin/python3
 ```
 - `$PY teardrop_t.py --selftest`
-- `$PY teste/regressao.py`: needs `kicad-cli` and writes to `teste/saida/`, which is not in git.
+- `$PY test/regression.py`: needs `kicad-cli` and writes to `test/out/`, which is not in git.
 - `$PY docs/make_images.py`: opens the dialog for a moment.
-- `python3 empacotar.py` (any python3). Install the zip in KiCad with Plugin and Content Manager → Install from File. After changing the core or the dialog, bump `VERSION`, build the zip again and reinstall.
+- `python3 package.py` (any python3). Install the zip in KiCad with Plugin and Content Manager → Install from File. After changing the core or the dialog, bump `VERSION`, build the zip again and reinstall.
 
 ## Rules
 - Documents, comments and commit messages are in English.
 - **A new geometry rule goes in three places at once:**
   - the self-test in `teardrop_t.py`;
-  - a case in `teste/gera.py`, with its count in `WEDGES`;
+  - a case in `test/make_board.py`, with its count in `WEDGES`;
   - a row of the README table, with the reason.
 - What `plan()` decides holds for `add()`, `outdated()` and the dialog count. Put a new rule in `plan()` or `corner()`, never in the dialog.
 - The plugin edits the board only inside `Run()`. KiCad records the plugin's changes (undo entry, unsaved mark) only between the start and the end of `Run()`, so the dialog stays modal.

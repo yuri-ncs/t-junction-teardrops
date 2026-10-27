@@ -21,7 +21,7 @@ length_pct and max_length_mm (L = min(length_pct % of the narrower width, max_le
 shorter than either, the second as a % of the narrower width, is not made), max_angle_deg (corners up to it, inclusive), min_fill_mm,
 curved, t_junctions (3 branches) / crossings (4+), the filters net, netclass, layer (names; None = all), and the exclusions exclude_nets
 (comma-separated fnmatch patterns, e.g. "USB_D*, RF_*": the extra copper changes a controlled impedance) and exclude_netclasses (names).
-Defaults (from the test board of 22 junction kinds in teste/): max_angle_deg 120, since corners of 135 degrees or more neither trap
+Defaults (from the test board of 22 junction kinds in test/): max_angle_deg 120, since corners of 135 degrees or more neither trap
 etchant nor concentrate stress, and filling them made blobs (Y splits, zig-zags, a branch on a bend); 120 rather than 90 still covers a
 hand-routed near-90 and a Y of 120. min_length_pct 25: a wedge cut by a pad or via to under a quarter of the width is a step, not a fillet
 (a via 0.7 mm from a T); 50 % gave the same on the test board but drops a useful 0.35 mm wedge on a 0.8 mm track.
@@ -224,7 +224,7 @@ def copper_grid(board):
 
 def keepout(grid, poly_mm, net, layer, near):
     """The copper of other nets (and of no net) on `layer` near a wedge outline, each grown by its own clearance: the wedge stays out of it,
-    since the fill would cut the wedge there and leave a thin copper horn (case 16 of teste/). Zones are not in it: the wedges
+    since the fill would cut the wedge there and leave a thin copper horn (case 16 of test/). Zones are not in it: the wedges
     outrank the pours. ERROR_INSIDE: a track that sits exactly at the clearance must not count as an overlap. near (nm): how far around
     the wedge's box to look, the board's biggest clearance (a mains net class can ask for more than 1 mm). -> [SHAPE_POLY_SET]
     shortcut: only the item's own clearance (net class, one-item rules); a rule between two nets in the .kicad_dru is not seen, and there the

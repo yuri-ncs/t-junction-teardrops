@@ -1,14 +1,14 @@
 """Synthetic board with 22 kinds of junction to test teardrop_t: T junctions of several widths, branches at 45/30/15 degrees, Y splits,
 crosses, a pad or via next to the node, another net nearby, very short arms, F/B/In2, and three junctions copied from a real board.
 Every loose track end gets a pad of its net (round, as wide as the track; PTH on In2), so the board's DRC is clean: no dangling track
-and no isolated copper, which KiCad reports for a net without pads. Writes saida/teste-t.kicad_pcb and saida/casos.json. Run with
-KiCad's python (regressao.py runs it)."""
+and no isolated copper, which KiCad reports for a net without pads. Writes out/test_board.kicad_pcb and out/cases.json. Run with
+KiCad's python (regression.py runs it)."""
 import json
 import os
 import pcbnew
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "saida")
+OUT = os.path.join(HERE, "out")
 # wedges expected per case with the DEFAULTS of teardrop_t (120 degree limit, 25 % minimum length, other nets' clearance)
 WEDGES = {1: 2, 2: 2, 3: 2, 4: 2, 5: 1, 6: 1, 7: 3, 8: 1, 9: 4, 10: 3, 11: 2, 12: 1, 13: 1, 14: 0, 15: 1, 16: 2, 17: 0, 18: 0, 19: 1,
           20: 2, 21: 2, 22: 1}
@@ -236,5 +236,5 @@ for (a, b), (c, d) in zip(pts, pts[1:]):
     board.Add(s)
 
 os.makedirs(OUT, exist_ok=True)
-pcbnew.SaveBoard(os.path.join(OUT, "teste-t.kicad_pcb"), board)
-json.dump(out, open(os.path.join(OUT, "casos.json"), "w"), ensure_ascii=False, indent=1)
+pcbnew.SaveBoard(os.path.join(OUT, "test_board.kicad_pcb"), board)
+json.dump(out, open(os.path.join(OUT, "cases.json"), "w"), ensure_ascii=False, indent=1)
