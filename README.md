@@ -9,19 +9,11 @@ plugin adds a concave fillet in each corner of every junction where three or mor
 
 ## Install
 
-Build the package and install it from the file:
-
-```bash
-python3 package.py
-```
-
-1. The package goes to `dist/mt_teardrop_t-<version>.zip`.
+1. Download `mt_teardrop_t-<version>.zip` from the [Releases](https://github.com/yuri-ncs/t-junction-teardrops/releases) page.
 2. In KiCad, open **Plugin and Content Manager → Install from File...** and pick the zip.
 3. The **T-Junction Teardrops** button shows up on the PCB editor toolbar.
 
-The zip carries its own copy of `teardrop_t.py`. After changing the core, build the zip again and reinstall it.
-
-The plugin uses the SWIG Python API. It was tested on KiCad 10.0 on macOS.
+The plugin needs KiCad 10.0 or later and uses the SWIG Python API. It was tested on KiCad 10.0 on macOS.
 
 ## Use
 

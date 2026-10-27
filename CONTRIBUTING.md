@@ -61,5 +61,9 @@ all of these:
 
 1. Bump `VERSION` in `package.py` and add the changes to `CHANGELOG.md`.
 2. Run the self-test and the regression.
-3. Run `python3 package.py`. It writes `dist/mt_teardrop_t-<VERSION>.zip` and checks the zip's contents.
-4. Install the zip in KiCad with **Plugin and Content Manager → Install from File...**.
+3. Run `python3 package.py --submission`. It writes `dist/mt_teardrop_t-<VERSION>.zip`, checks the zip's contents, and writes
+   `dist/submission/<identifier>/` with the store metadata (download URL, sha256 and sizes of that zip) and the icon.
+4. Install the zip in KiCad with **Plugin and Content Manager → Install from File...** and try it.
+5. Tag `v<VERSION>` and create a GitHub release with that same zip attached. Building the zip again changes its sha256.
+6. To update the KiCad store, add the new version to `packages/<identifier>/metadata.json` in a fork of
+   [kicad/addons/metadata](https://gitlab.com/kicad/addons/metadata) and open a merge request. Older versions stay in that list.

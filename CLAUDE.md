@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - `teardrop_t.py`: the core. It finds the junctions, draws the wedges, and has `add`/`remove`/`plan`/`outdated` and the self-test. It does not use wx, so it also runs outside KiCad.
 - `mt_teardrop_t/`: the plugin. `__init__.py` registers the action and loads the core by file path. `dialog.py` is the wx dialog with the preview.
-- `package.py`: builds `dist/mt_teardrop_t-<VERSION>.zip` (PCM, schema v1), with a copy of the core as `plugins/teardrop_core.py`. Changes go to `CHANGELOG.md`; development notes for people are in `CONTRIBUTING.md`.
+- `package.py`: builds `dist/mt_teardrop_t-<VERSION>.zip` (PCM, schema v2); `--submission` also writes the store metadata, with a copy of the core as `plugins/teardrop_core.py`. Changes go to `CHANGELOG.md`; development notes for people are in `CONTRIBUTING.md`.
 - `test/`: the synthetic board of 22 cases (`make_board.py`, with the expected wedge counts in `WEDGES`) and the regression (`regression.py`).
 - `docs/`: the README images and `make_images.py`, which renders them again.
 - Other scripts may import the core: keep `add`, `load`, `params_path` and `NAME` stable.
@@ -29,7 +29,7 @@ PY=/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/C
   - a row of the README table, with the reason.
 - What `plan()` decides holds for `add()`, `outdated()` and the dialog count. Put a new rule in `plan()` or `corner()`, never in the dialog.
 - The plugin edits the board only inside `Run()`. KiCad records the plugin's changes (undo entry, unsaved mark) only between the start and the end of `Run()`, so the dialog stays modal.
-- **Metadata:** name and description in English, identifier `com.teardropt`. The author's e-mail appears only in the metadata.
+- **Metadata:** name and description in English, identifier `com.github.yuri-ncs.t-junction-teardrops` (the store's rule for GitHub-hosted packages). The author's e-mail appears only in the metadata.
 
 ## Pitfalls (KiCad 10 SWIG)
 - `Clone()` of a zone, and adding back a removed zone, crash or leave dead wrappers. The dialog keeps the zones as plain data instead (`snapshot`/`rebuild`).
@@ -41,5 +41,5 @@ PY=/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/C
   - the plugin folder must not be called `teardrop_t`: KiCad imports it by its folder name, and `import teardrop_t` would then get the plugin.
 
 ## Open items
-- **KiCad store (PCM):** public repository URL in the metadata, schema v2, category (now `Marine Telematics`), and the zip's sha256 and size in the submission.
+- **KiCad store (PCM):** the merge request to gitlab.com/kicad/addons/metadata, with `dist/submission/` (needs Yuri's GitLab account).
 - A version for the IPC API: KiCad 11 drops SWIG. It would also leave KiCad usable while the dialog is open.
