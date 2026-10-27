@@ -41,6 +41,7 @@ def rebuild(board, snap):
 def draw_preview(gc, width, height, core, p, branch45=False, track_w=0.25):
     """Draws the sample T into gc (wx.GraphicsContext) and returns L in mm of its first corner (None when no wedge fits).
     Trunk horizontal, branch down (or at 45 degrees), every corner from core.corner() with the current parameters."""
+    gc.DisableOffset()  # macOS shifts odd-width lines half a pixel: the branch covered more of one fillet than of the other
     gc.SetBrush(wx.Brush(BG))
     gc.SetPen(wx.TRANSPARENT_PEN)
     gc.DrawRectangle(0, 0, width, height)

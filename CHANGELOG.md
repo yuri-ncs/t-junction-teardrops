@@ -4,6 +4,7 @@
 - Package identifier `com.github.yuri-ncs.t-junction-teardrops`, for the KiCad Plugin and Content Manager. A copy installed with
   the old identifier (`com.teardropt`) is a different package: uninstall it first.
 - Package metadata in schema v2, with the repository link and tags. Minimum KiCad version 10.0, the only version tested.
+- The dialog's preview draws both fillets of the sample T the same size: on macOS the branch line was half a pixel off center.
 
 ## 0.4.3
 - The clearance check looks as far as the board's biggest clearance, instead of a fixed 1 mm.
